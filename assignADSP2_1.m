@@ -1,0 +1,34 @@
+clear all
+%% Using LMS algorithm as u = 0.1
+I = eye(2); u1 = 0.1;
+Tm = [1 0.5; 0.5 1]; % Autocorrelation matrix
+vd = [0.25; -0.25]; % Cross-correlation vector
+% LMS algorithm computation
+A = I - u1 * Tm; B = u1 * vd;
+h = [1; 1]; H1 = [1; 1]; % Initialize filter parameters
+N1 = 150; % Iteration steps
+for i = 1 : N1
+    h = A * h + B;
+    H1 = [H1, h];
+end
+%% Using LMS algorithm as u = 0.35
+I = eye(2); u2 = 0.35;
+Tm = [1 0.5; 0.5 1]; % Autocorrelation matrix
+vd = [0.25; -0.25]; % Cross-correlation vector
+% LMS algorithm computation
+A = I - u2 * Tm; B = u2 * vd;
+h = [1; 1]; H2 = [1; 1]; % Initialize filter parameters
+N2 = 150; % Iteration steps
+for i = 1 : N2
+    h = A * h + B;
+    H2 = [H2, h];
+end
+%% Plot both above evolution graphs
+subplot(4,1,1),plot(1:N1+1,H1(1,:)),xlim([0,N1]),ylim([0,1])
+title('Evolution graph of h_M[0] (u = 0.1)');
+subplot(4,1,2),plot(1:N1+1,H1(2,:)),xlim([0,N1]),ylim([-1,1])
+title('Evolution graph of h_M[1] (u = 0.1)');
+subplot(4,1,3),plot(1:N2+1,H2(1,:)),xlim([0,N2]),ylim([0,1])
+title('Evolution graph of h_M[0] (u = 0.35)');
+subplot(4,1,4),plot(1:N2+1,H2(2,:)),xlim([0,N2]),ylim([-1,1])
+title('Evolution graph of h_M[1] (u = 0.35)');
